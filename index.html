@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.box{
+			width: 100px;
+			height: 100px;
+			position: absolute;
+			background-color: red;
+			border-radius: 100px;
+			transition: 1.5s
+		}
+		.winbox{
+			width: 500px;
+			height: 200px;
+			margin: 0 auto;
+			margin-top: 100px;
+			display: none;
+			background-color: grey;
+			text-align: center;
+			line-height: 200px;
+		}
+	</style>
+</head>
+<body>
+	<h1>Score: <span class="score"></span></h1>
+	<div style="width: 1200px; height: 900px; border: 1px solid black" class="main">
+		<div class="box" style="left: 1050px; top: 90px;"></div>
+		<div class="box" style="left: 500px; top: 120px;"></div>
+		<div class="box" style="left: 200px; top: 59px;"></div>
+		<div class="box" style="left: 220px; top: 250px;"></div>
+
+		<div class="box" style="left: 820px; top: 820px;"></div>
+		<div class="box" style="left: 700px; top: 500px;"></div>
+		<div class="box" style="left: 20px; top: 720px;"></div>
+		<div class="box" style="left: 300px; top: 600px;"></div>
+
+		<div class="box" style="left: 150px; top: 150px;"></div>
+		<div class="box" style="left: 300px; top: 200px;"></div>
+		<div class="box" style="left: 450px; top: 250px;"></div>
+		<div class="box" style="left: 600px; top: 300px;"></div>
+
+		<div class="box" style="left: 750px; top: 350px;"></div>
+		<div class="box" style="left: 600px; top: 450px;"></div>
+		<div class="box" style="left: 450px; top: 500px;"></div>
+		<div class="box" style="left: 300px; top: 550px;"></div>
+	</div>
+	<div class="winbox win">
+		<h1>Pobeda</h1>
+	</div>
+	<div class="winbox lose">
+		<h1>Porazhenie</h1>
+	</div>
+	<script type="text/javascript">
+		let box = document.querySelectorAll('.box')
+		let numLeft = [80, 500, 400, 320, 0, 0, 0, 0, 150, 300, 450, 600]
+		let numTop = [0,0,0,0,820, 500, 720, 600, 150,200, 250 ,300, 350, 450, 500, 550]
+		let width = [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
+		let height = [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
+		let score = 0;
+		document.querySelector('.score').innerHTML = score
+
+		function moveLeft(){
+			for(let i=0; i<4;i+=1){
+				if(numLeft[i]<1200){
+					numLeft[i] = numLeft[i]+20*i
+					box[i].style.left = numLeft[i] +'px'
+				}
+
+				if(numLeft[i]>=1200){
+					numLeft[i] = numLeft[i]-(100*i)
+					box[i].style.left = numLeft[i] +'px'
+				}
+				box[i].style.backgroundColor = 'purple'
+				
+			}
+		}
+		function moveTop(){
+			for (let i=4; i<8;i+=1){
+				if (numTop[i]>200) {
+					numTop[i] = numTop[i]-(20*i)
+					box[i].style.top = numTop[i] +'px'
+				}
+				if (numTop[i]<=200) {
+					numTop[i] = numTop[i]+(100*i)
+					box[i].style.top = numTop[i] +'px'
+				}
+				box[i].style.backgroundColor = 'orange'
+			}
+		}
+		function bigger(){
+			for(let i=8; i<12; i+=1){
+				width[i]+=2
+				height[i]+=2
+				box[i].style.width = width[i]+'px'
+				box[i].style.height = height[i]+'px'
+				box[i].style.backgroundColor = 'blue'
+				numTop[i] = numTop[i]+(2*i)
+				box[i].style.top = numTop[i] +'px'
+				
+			
+		}
+		}
+		function smaller(){
+			for(let i=12; i<16; i+=1){
+				width[i]-=2
+				height[i]-=2
+				box[i].style.width = width[i]+'px'
+				box[i].style.height = height[i]+'px'
+				box[i].style.backgroundColor = 'green'
+				numTop[i] = numTop[i]-(2*i)
+				box[i].style.top = numTop[i] +'px'
+			}
+		}
+		for(let i=0; i<16; i+=1){
+			box[i].onclick = function(){
+				box[i].style.display = 'none'
+				score+=1
+				document.querySelector('.score').innerHTML = score
+				if (score==16){
+					document.querySelector('.main').style.display = 'none'
+					document.querySelector('.win').style.display = 'block'
+				}
+			}
+		}
+		function lose(){
+			document.querySelector('.main').style.display = 'none'
+			document.querySelector('.lose').style.display = 'block'
+		}
+		setInterval(moveLeft, 1500);
+		setInterval(moveTop, 1500);
+		setInterval(bigger, 1500);
+		setInterval(smaller, 1500);
+		setTimeout(lose, 10000)
+	</script>
+</body>
+</html>
